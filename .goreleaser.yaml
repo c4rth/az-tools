@@ -14,9 +14,12 @@ builds:
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.buildSource=binaryRelease
 
+
 archives:
   - builds:
       - binary
     format_overrides:
       - goos: windows
         format: zip
+    files:
+      - az-tools.yaml
