@@ -21,11 +21,5 @@ jobs:
           distribution: goreleaser
           version: latest
           args: release --clean
-          workdir: buildfolder
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload assets
-        uses: actions/upload-artifact@v3
-        with:
-          name: az-tools
-          path: buildfolder/dist/*
