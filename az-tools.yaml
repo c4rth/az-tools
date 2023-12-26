@@ -1,0 +1,14 @@
+- subscription: sub1
+  aks:
+    - name: aks11
+      resource-group: resource-group11
+    - name: aks12
+      resource-group: resource-group12
+    - name: aks13
+      resource-group: resource-group13
+- subscription: sub2
+  aks:
+    - name: aks21
+      resource-group: resource-group21
+    - name: aks22
+      resource-group: resource-group22
