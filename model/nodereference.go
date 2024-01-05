@@ -1,6 +1,7 @@
 package model
 
 type NodeReference struct {
-	Subscription string
-	Aks          Aks
+	Subscription  string
+	ResourceGroup string
+	Aks           string
 }

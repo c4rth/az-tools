@@ -3,7 +3,6 @@ package azcommand
 import (
 	"az-tools/model"
 	"github.com/TwiN/go-color"
-	"os"
 	"os/exec"
 	"strings"
 )
@@ -12,10 +11,10 @@ type AzCommand struct {
 	Text string
 }
 
-func (c AzCommand) Exec(args ...string) error {
-	println(color.OverGreen(c.Text))
-	println(color.OverGreen(args))
+func (command AzCommand) Exec(args ...string) error {
+	println(color.OverGreen(command.Text))
 	cmd := exec.Command("az", args...)
+	println(color.InGreen(cmd))
 	var stdOut strings.Builder
 	var stdErr strings.Builder
 	cmd.Stdout = &stdOut
@@ -34,19 +33,19 @@ func execAzSubscription(subscription string) error {
 	return cmd.Exec("account", "set", "--subscription", subscription)
 }
 
-func execAzAks(aks model.Aks) error {
-	cmd := AzCommand{Text: "Set AKS to " + aks.Name + " in " + aks.ResourceGroup}
-	return cmd.Exec("aks", "get-credentials", "-n", aks.Name, "-g", aks.ResourceGroup)
+func execAzAks(resourceGroup string, aks string) error {
+	cmd := AzCommand{Text: "Set AKS to " + aks + " in " + resourceGroup}
+	return cmd.Exec("aks", "get-credentials", "-n", aks, "-g", resourceGroup)
 }
 
 func ExecCommands(reference model.NodeReference) error {
 	err := execAzSubscription(reference.Subscription)
 	if err != nil {
-		os.Exit(1)
+		return err
 	}
-	err = execAzAks(reference.Aks)
+	err = execAzAks(reference.ResourceGroup, reference.Aks)
 	if err != nil {
-		os.Exit(1)
+		return err
 	}
 	return nil
 }
