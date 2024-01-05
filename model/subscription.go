@@ -5,25 +5,29 @@ import (
 	"os"
 )
 
-type Aks struct {
-	Name          string `yaml:"name"`
-	ResourceGroup string `yaml:"resource-group"`
+const ConfigFilename = "az-tools.yaml"
+
+type Config struct {
+	Subscriptions []struct {
+		Name           string `yaml:"name"`
+		ResourceGroups []struct {
+			Name string `yaml:"name"`
+			Aks  []struct {
+				Name string `yaml:"name"`
+			} `yaml:"aks"`
+		} `yaml:"resource-groups"`
+	} `yaml:"subscriptions"`
 }
 
-type Subscription struct {
-	Subscription string `yaml:"subscription"`
-	Aks          []Aks
-}
-
-func ReadSubscriptions(filename string) ([]Subscription, error) {
-	b, err := os.ReadFile(filename)
+func ReadConfig() (Config, error) {
+	b, err := os.ReadFile(ConfigFilename)
 	if err != nil {
-		return []Subscription{}, err
+		return Config{}, err
 	}
-	var items []Subscription
-	err = yaml.Unmarshal(b, &items)
+	var config Config
+	err = yaml.Unmarshal(b, &config)
 	if err != nil {
-		return []Subscription{}, err
+		return Config{}, err
 	}
-	return items, nil
+	return config, nil
 }

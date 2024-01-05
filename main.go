@@ -12,24 +12,28 @@ func main() {
 	reference := model.NodeReference{}
 	selected := false
 
-	subscriptions, err := model.ReadSubscriptions("az-tools.yaml")
+	//subscriptions, err := model.ReadSubscriptions("az-tools.yaml")
+	config, err := model.ReadConfig()
 	if err != nil {
 		panic(err)
 	}
 
-	rootDir := "subscriptions"
+	rootDir := "[:bold]subscriptions"
 	root := tview.NewTreeNode(rootDir).SetSelectable(false)
 	tree := tview.NewTreeView().SetRoot(root).SetCurrentNode(root)
-	for _, subscription := range subscriptions {
-		subNode := tview.NewTreeNode(subscription.Subscription).
+	for _, subscription := range config.Subscriptions {
+		subscriptionNode := tview.NewTreeNode("[:bold]" + subscription.Name).
 			SetSelectable(false)
-		for _, aks := range subscription.Aks {
-			aksNode := tview.NewTreeNode(aks.ResourceGroup + "/" + aks.Name).
-				SetSelectable(true).
-				SetReference(model.NodeReference{Subscription: subscription.Subscription, Aks: aks})
-			subNode.AddChild(aksNode)
+		for _, resourceGroup := range subscription.ResourceGroups {
+			for _, aks := range resourceGroup.Aks {
+				aksNode := tview.NewTreeNode(resourceGroup.Name + " / " + aks.Name).
+					SetSelectable(true).
+					SetReference(model.NodeReference{Subscription: subscription.Name, ResourceGroup: resourceGroup.Name, Aks: aks.Name})
+				subscriptionNode.AddChild(aksNode)
+			}
 		}
-		root.AddChild(subNode)
+
+		root.AddChild(subscriptionNode)
 	}
 
 	app := tview.NewApplication().SetRoot(tree, true)
@@ -40,6 +44,7 @@ func main() {
 		app.Stop()
 	}).
 		SetBorder(true).
+		SetBorderPadding(0, 0, 1, 1).
 		SetTitle("Az tools").
 		SetTitleAlign(tview.AlignLeft)
 
