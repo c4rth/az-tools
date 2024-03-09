@@ -21,5 +21,6 @@
 go.work
 
 az-tools
+pkg/
 
 .idea
