@@ -29,7 +29,7 @@ func (command AzCommand) Exec(args ...string) error {
 }
 
 func execAzSubscription(subscription string) error {
-	cmd := AzCommand{Text: "Set subscription to " + subscription}
+	cmd := AzCommand{Text: "Set active subscription to " + subscription}
 	return cmd.Exec("account", "set", "--subscription", subscription)
 }
 
