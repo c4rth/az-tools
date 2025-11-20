@@ -35,7 +35,7 @@ func execAzSubscription(subscription string) error {
 
 func execAzAks(resourceGroup string, aks string) error {
 	cmd := AzCommand{Text: "Set AKS to " + aks + " in " + resourceGroup}
-	return cmd.Exec("aks", "get-credentials", "-n", aks, "-g", resourceGroup)
+	return cmd.Exec("aks", "get-credentials", "-n", aks, "-g", resourceGroup, "--overwrite")
 }
 
 func ExecCommands(reference model.NodeReference) error {
