@@ -20,7 +20,7 @@
 # Go workspace file
 go.work
 
-az-tools
+/bin
 pkg/
 
 .idea

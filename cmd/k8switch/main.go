@@ -1,21 +1,21 @@
 package main
 
 import (
-	"az-tools/azcommand"
-	"az-tools/model"
-	"az-tools/ui"
+	"k8switch/internal/cli"
+	"k8switch/internal/config"
+	"k8switch/internal/ui"
 
 	"fmt"
 	"os"
 )
 
 func run() error {
-	config, isDummy, err := model.ReadConfig()
+	config, isDummy, err := config.ReadConfig()
 	if err != nil {
 		return err
 	}
 
-	selectedReference, selected, err := ui.RunTUI(config, isDummy)
+	selectedNode, selected, err := ui.RunTUI(config, isDummy)
 	if err != nil {
 		return err
 	}
@@ -23,7 +23,7 @@ func run() error {
 		return nil
 	}
 
-	return azcommand.ExecCommands(selectedReference)
+	return cli.ExecCommands(selectedNode)
 }
 
 func main() {

@@ -1,10 +1,14 @@
-# Make sure to check the documentation at http://goreleaser.com
+version: 2
+
+project_name: k8switch
+
 env:
   - CGO_ENABLED=0
-  - GO111MODULE=auto
 
 builds:
-  - id: binary
+  - id: k8switch
+    main: ./cmd/k8switch
+    binary: k8switch
     goos:
       - windows
       - linux
@@ -12,13 +16,14 @@ builds:
       - amd64
       - arm64
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.buildSource=binaryRelease
+      - -s -w
 
 archives:
   - builds:
-      - binary
+      - k8switch
     format_overrides:
       - goos: windows
         format: zip
     files:
       - README.md
+      - LICENSE
