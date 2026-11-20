@@ -1,3 +1,7 @@
+v 0.0.6
+- fix UI
+- update dependencies
+
 v 0.0.5
 - Rename + reorg code
 
