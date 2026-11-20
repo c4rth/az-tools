@@ -38,7 +38,7 @@ func TestTreeRespectsTerminalDefaults(t *testing.T) {
 	}
 	for _, want := range []string{"K8S", "Rancher", "Azure", "subscription"} {
 		if !strings.Contains(headings, want) {
-			t.Errorf("heading %q does not use white on green: %q", want, headings)
+			t.Errorf("heading %q does not use black on green: %q", want, headings)
 		}
 	}
 	if strings.Contains(headings, "rancher") || strings.Contains(headings, "group / cluster") {
@@ -81,7 +81,7 @@ func inspectScreen(t *testing.T, screen tcell.Screen, allowHeadings bool) (strin
 		for x := 0; x < width; x++ {
 			char, _, style, _ := screen.GetContent(x, y)
 			fg, bg, attr := style.Decompose()
-			if allowHeadings && fg == tcell.ColorWhite && bg == tcell.ColorGreen {
+			if allowHeadings && fg == tcell.ColorBlack && bg == tcell.ColorGreen {
 				headings.WriteRune(char)
 			} else if fg != tcell.ColorDefault || bg != tcell.ColorDefault {
 				t.Errorf("cell (%d,%d) %q uses foreground %v and background %v", x, y, char, fg, bg)
