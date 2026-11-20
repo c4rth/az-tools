@@ -1,5 +1,5 @@
-# az-tools
-Azure Cloud Shell Tools : switch active Subscription and get credentials for an cluster
+# k8switch
+A terminal tool for switching Rancher Kubernetes contexts or selecting an Azure subscription and retrieving AKS cluster credentials.
 
 ## Build and test
 
